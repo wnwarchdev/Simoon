@@ -5,11 +5,20 @@ let moves = [];
 let movesRequired = moves.length;
 let currentMove = 0;
 let currentStep = 0;
-const choiceColors = 4;
+const choiceColors = 5;
 
 console.log("starting movesRequired: ", movesRequired);
 console.log("starting currentMove: ", currentMove);
 console.log("starting currentStep: ", currentStep);
+
+for (let item = 1; item <= choiceColors; item++) {
+  const para = document.createElement("button");
+  para.className = "btn";
+  const node = document.createTextNode(`${item}`);
+  para.appendChild(node);
+  const destination = document.getElementById("div1");
+  destination.appendChild(para);
+}
 
 //timer
 
