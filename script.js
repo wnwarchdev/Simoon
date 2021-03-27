@@ -14,12 +14,18 @@ console.log("starting currentStep: ", currentStep);
 for (let item = 1; item <= choiceColors; item++) {
   const para = document.createElement("button");
   para.className = "btn";
-  para.style.transform = `rotate(${(360 / choiceColors) * (item - 1)}deg)`;
+  para.style.transform = `translateY(-125px) rotate(${
+    (360 / choiceColors) * (item - 1)
+  }deg)`;
   const node = document.createTextNode(`${item}`);
   para.appendChild(node);
   const destination = document.getElementById("div1");
   destination.appendChild(para);
 }
+
+const rotatePlayArea = function () {
+  document.querySelector(".playArea").classList.toggle("rotate180");
+};
 
 //timer
 
@@ -84,7 +90,7 @@ const checkMove = function () {
 
   console.log("now, the move step is:", currentStep);
   if (currentStep > movesRequired) {
-    if (movesRequired == 2) {
+    if (movesRequired == 6) {
       console.warn("congratulations, you won the game");
       resetGame();
       // const buttons = document.querySelectorAll(".btn");
@@ -93,6 +99,7 @@ const checkMove = function () {
       // }
     } else {
       callSequence();
+      rotatePlayArea();
       movesRequired = moves.length;
       currentStep = 0;
     }

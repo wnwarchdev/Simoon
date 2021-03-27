@@ -5,9 +5,14 @@ body {
 .playArea {
   display: flex;
   justify-content: center;
+  align-items: center;
   border: 1px solid yellow;
-  position: relative;
-  top: 100px;
+  position: fixed;
+  width: 100px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: transform ease-in-out 0.5s;
 }
 
 .btn {
@@ -29,4 +34,9 @@ body {
 .btn-deactivated {
   background-color: gray;
   pointer-events: none;
+}
+
+.rotate180 {
+  transform: translate(-50%, -50%) rotate(180deg);
+  transition: transform ease-in-out 0.5s;
 }
