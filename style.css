@@ -4,6 +4,10 @@ body {
 
 .playArea {
   display: flex;
+  justify-content: center;
+  border: 1px solid yellow;
+  position: relative;
+  top: 100px;
 }
 
 .btn {
@@ -11,8 +15,11 @@ body {
   width: 50px;
   margin: 5px;
   color: rgb(0, 0, 0);
-  display: flex;
-  justify-content: center;
+  position: absolute;
+  height: 50px;
+  border-radius: 50%;
+  border: 2px solid;
+  transform-origin: 50% 150px;
 }
 
 .btn-active {
