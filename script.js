@@ -28,6 +28,14 @@ const rotatePlayArea = function () {
   document.querySelector(".playArea").classList.toggle("rotate180");
 };
 
+const blinkBackground = function (choice) {
+  const body = document.querySelector("body");
+  body.classList.add(`body-${choice}`);
+  setTimeout(() => {
+    body.classList.remove(`body-${choice}`);
+  }, 50);
+};
+
 const activateButton = function (color) {
   console.log("button pressed", `${color}`);
   const selected = document.querySelector(`#btn-${color}`);
@@ -55,7 +63,10 @@ const resetGame = function () {
   movesRequired = moves.length;
   currentMove = 0;
   currentStep = 0;
-  callSequence();
+
+  setTimeout(() => {
+    callSequence();
+  }, 2000);
 };
 
 const callSequence = function () {
@@ -95,7 +106,7 @@ const checkMove = function () {
     console.log("yes");
     currentStep++;
   } else {
-    console.error("oops, resetting...");
+    blinkBackground(`bad`);
     resetGame();
   }
 
@@ -103,6 +114,7 @@ const checkMove = function () {
   if (currentStep > movesRequired) {
     if (movesRequired == 6) {
       console.warn("congratulations, you won the game");
+      blinkBackground(`good`);
       resetGame();
       // const buttons = document.querySelectorAll(".btn");
       // for (let i = 0; i < buttons.length; i++) {
@@ -111,7 +123,7 @@ const checkMove = function () {
     } else {
       setTimeout(() => {
         callSequence();
-      }, 2000);
+      }, 1000);
 
       rotatePlayArea();
       movesRequired = moves.length;

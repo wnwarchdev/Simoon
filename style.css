@@ -1,5 +1,14 @@
 body {
   background-color: black;
+  transition: all ease-in-out 0.01s;
+}
+
+.body-good {
+  background-color: chartreuse;
+}
+
+.body-bad {
+  background-color: tomato;
 }
 
 *:focus {
