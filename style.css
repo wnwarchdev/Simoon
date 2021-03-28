@@ -2,6 +2,10 @@ body {
   background-color: rgb(230, 230, 230);
 }
 
+*:focus {
+  outline: 0;
+}
+
 .playArea {
   display: flex;
   justify-content: center;

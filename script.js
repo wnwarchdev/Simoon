@@ -14,6 +14,7 @@ console.log("starting currentStep: ", currentStep);
 for (let item = 1; item <= choiceColors; item++) {
   const para = document.createElement("button");
   para.className = "btn";
+  para.id = `btn-${item}`;
   para.style.transform = `translateY(-125px) rotate(${
     (360 / choiceColors) * (item - 1)
   }deg)`;
