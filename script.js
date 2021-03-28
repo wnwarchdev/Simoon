@@ -5,7 +5,7 @@ let moves = [];
 let movesRequired = moves.length;
 let currentMove = 0;
 let currentStep = 0;
-const choiceColors = 4;
+const choiceColors = 6;
 
 console.log("starting movesRequired: ", movesRequired);
 console.log("starting currentMove: ", currentMove);
@@ -13,7 +13,7 @@ console.log("starting currentStep: ", currentStep);
 
 for (let item = 1; item <= choiceColors; item++) {
   const para = document.createElement("button");
-  para.className = "btn";
+  para.className = `btn btn-${item}`;
   para.id = `btn-${item}`;
   para.style.transform = `translateY(-125px) rotate(${
     (360 / choiceColors) * (item - 1)
@@ -28,6 +28,15 @@ const rotatePlayArea = function () {
   document.querySelector(".playArea").classList.toggle("rotate180");
 };
 
+const activateButton = function (color) {
+  console.log("button pressed", `${color}`);
+  const selected = document.querySelector(`#btn-${color}`);
+  selected.classList.add(`btn-${color}-active`);
+  setTimeout(() => {
+    selected.classList.remove(`btn-${color}-active`);
+  }, 300);
+};
+
 //timer
 
 //choosemove
@@ -38,6 +47,7 @@ const newMove = function () {
 
 const callMove = function (arg) {
   console.log(arg);
+  activateButton(arg);
 };
 
 const resetGame = function () {
@@ -99,7 +109,10 @@ const checkMove = function () {
       //   buttons[i].disabled = true;
       // }
     } else {
-      callSequence();
+      setTimeout(() => {
+        callSequence();
+      }, 2000);
+
       rotatePlayArea();
       movesRequired = moves.length;
       currentStep = 0;
@@ -112,6 +125,7 @@ for (let i = 0; i < buttonClick.length; i++) {
   buttonClick[i].addEventListener("click", function () {
     const buttonContent = buttonClick[i].textContent;
     currentMove = buttonContent;
+    activateButton(i + 1);
     checkMove();
   });
 }

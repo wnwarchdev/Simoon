@@ -1,5 +1,5 @@
 body {
-  background-color: rgb(230, 230, 230);
+  background-color: black;
 }
 
 *:focus {
@@ -10,7 +10,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid yellow;
   position: fixed;
   width: 100px;
   top: 50%;
@@ -20,27 +19,88 @@ body {
 }
 
 .btn {
-  background-color: rgb(255, 255, 255);
   width: 50px;
   margin: 5px;
   color: rgb(0, 0, 0);
   position: absolute;
   height: 50px;
   border-radius: 50%;
-  border: 2px solid;
+  border: 4px solid;
   transform-origin: 50% 150px;
+  background-color: transparent;
+  transition: all 0.05s linear;
 }
 
-.btn-active {
-  color: rgb(255, 0, 0);
+.btn-1 {
+  border-color: red;
 }
+
+.btn-1-active {
+  background-color: red;
+  box-shadow: 0 0 40px 1px red;
+}
+
+.btn-2 {
+  border-color: gold;
+}
+
+.btn-2-active {
+  background-color: gold;
+  box-shadow: 0 0 40px 1px gold;
+}
+
+.btn-3 {
+  border-color: green;
+}
+
+.btn-3-active {
+  background-color: green;
+  box-shadow: 0 0 40px 1px green;
+}
+
+.btn-4 {
+  border-color: violet;
+}
+
+.btn-4-active {
+  background-color: violet;
+  box-shadow: 0 0 40px 1px violet;
+}
+
+.btn-5 {
+  border-color: orange;
+}
+
+.btn-5-active {
+  background-color: orange;
+  box-shadow: 0 0 40px 1px orange;
+}
+
+.btn-6 {
+  border-color: cyan;
+}
+
+.btn-6-active {
+  background-color: cyan;
+  box-shadow: 0 0 40px 1px cyan;
+}
+
+/*#btn-1 {
+  background-color: none;
+  border-color: red;
+}
+
+#btn-1:active {
+  background-color: red;
+}*/
 
 .btn-deactivated {
   background-color: gray;
   pointer-events: none;
 }
 
+/*
 .rotate180 {
   transform: translate(-50%, -50%) rotate(180deg);
-  transition: transform ease-in-out 0.5s;
-}
+  transition: transform ease-in-out 0.1s;
+} */
