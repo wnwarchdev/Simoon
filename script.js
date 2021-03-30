@@ -6,10 +6,12 @@ let movesRequired = moves.length;
 let currentMove = 0;
 let currentStep = 0;
 const choiceColors = 6;
+let lives = 3;
+let sound;
 
-console.log("starting movesRequired: ", movesRequired);
-console.log("starting currentMove: ", currentMove);
-console.log("starting currentStep: ", currentStep);
+// console.log("starting movesRequired: ", movesRequired);
+// console.log("starting currentMove: ", currentMove);
+// console.log("starting currentStep: ", currentStep);
 
 for (let item = 1; item <= choiceColors; item++) {
   const para = document.createElement("button");
@@ -28,8 +30,25 @@ const rotatePlayArea = function () {
   document.querySelector(".playArea").classList.toggle("rotate180");
 };
 
+const turnCounter = function (turn) {
+  const counter = document.querySelector(`.turnCounter`);
+  counter.textContent = ("0" + turn).substr(-2);
+};
+
+const lifeCounter = function (life) {
+  const counter = document.querySelector(`.lifeCounter`);
+};
+
+const lifeCounterLock = function () {
+  const counter = document.querySelector(`.lifeCounter`);
+};
+
 const blinkBackground = function (choice) {
   const body = document.querySelector("body");
+  sound = document.querySelector(`[data-sound='${choice}']`);
+  sound.pause();
+  sound.currentTime = 0;
+  sound.play();
   body.classList.add(`body-${choice}`);
   setTimeout(() => {
     body.classList.remove(`body-${choice}`);
@@ -37,12 +56,22 @@ const blinkBackground = function (choice) {
 };
 
 const activateButton = function (color) {
-  console.log("button pressed", `${color}`);
+  //console.log("button pressed", `${color}`);
   const selected = document.querySelector(`#btn-${color}`);
+  sound = document.querySelector(`[data-sound='${color}']`);
+  sound.pause();
+  sound.currentTime = 0;
+
   selected.classList.add(`btn-${color}-active`);
+  sound.play();
   setTimeout(() => {
     selected.classList.remove(`btn-${color}-active`);
   }, 300);
+};
+
+const toggleGrayCounter = function () {
+  const selected = document.querySelector(`.turnCounter`);
+  selected.classList.toggle("turnCounterGray");
 };
 
 //timer
@@ -80,10 +109,12 @@ const callSequence = function () {
       callMove(moves[count]);
     }, 1000 * count);
   }
+  turnCounter(movesRequired + 1);
   setTimeout(() => {
     moves.push(newMove());
     callMove(moves[moves.length - 1]);
     //activate keys
+    toggleGrayCounter();
     console.log("keys activated, player turn");
     const buttons = document.querySelectorAll(".btn");
     for (let i = 0; i < buttons.length; i++) {
@@ -97,30 +128,40 @@ const callSequence = function () {
 // };
 
 const checkMove = function () {
-  console.log("checkmove!");
-  console.log("number of moves required: ", movesRequired);
-  console.log("current move step is:", currentStep);
-  console.log("current move value is:", currentMove);
-  console.log("...and is to match:", moves[0]);
+  // console.log("checkmove!");
+  // console.log("number of moves required: ", movesRequired);
+  // console.log("current move step is:", currentStep);
+  //console.log("current move value is:", currentMove);
+  //console.log("...and is to match:", moves[0]);
   if (currentMove == moves[currentStep]) {
-    console.log("yes");
+    //console.log("yes");
     currentStep++;
   } else {
+    toggleGrayCounter();
     blinkBackground(`bad`);
     resetGame();
   }
 
-  console.log("now, the move step is:", currentStep);
+  //console.log("now, the move step is:", currentStep);
   if (currentStep > movesRequired) {
-    if (movesRequired == 6) {
-      console.warn("congratulations, you won the game");
-      blinkBackground(`good`);
+    if (movesRequired == 09) {
+      //console.warn("congratulations, you won the game");
+      toggleGrayCounter();
+      blinkBackground(`win`);
+      setTimeout(() => {
+        blinkBackground(`win`);
+      }, 100);
       resetGame();
       // const buttons = document.querySelectorAll(".btn");
       // for (let i = 0; i < buttons.length; i++) {
       //   buttons[i].disabled = true;
       // }
     } else {
+      setTimeout(() => {
+        blinkBackground(`good`);
+        toggleGrayCounter();
+      }, 500);
+
       setTimeout(() => {
         callSequence();
       }, 1000);
