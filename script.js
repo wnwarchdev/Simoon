@@ -43,6 +43,20 @@ const lifeCounterLock = function () {
   const counter = document.querySelector(`.lifeCounter`);
 };
 
+const disableButtons = function () {
+  const buttons = document.querySelectorAll(".btn");
+  for (let i = 0; i < buttons.length; i++) {
+    buttons[i].disabled = true;
+  }
+};
+
+const enableButtons = function () {
+  const buttons = document.querySelectorAll(".btn");
+  for (let i = 0; i < buttons.length; i++) {
+    buttons[i].disabled = false;
+  }
+};
+
 const blinkBackground = function (choice) {
   const body = document.querySelector("body");
   sound = document.querySelector(`[data-sound='${choice}']`);
@@ -58,12 +72,16 @@ const blinkBackground = function (choice) {
 const activateButton = function (color) {
   //console.log("button pressed", `${color}`);
   const selected = document.querySelector(`#btn-${color}`);
+
   sound = document.querySelector(`[data-sound='${color}']`);
-  sound.pause();
+  console.log("sound! ", sound);
+  //sound.pause();
   sound.currentTime = 0;
+  console.log("sound! ", sound);
 
   selected.classList.add(`btn-${color}-active`);
   sound.play();
+  console.log("sound! ", sound);
   setTimeout(() => {
     selected.classList.remove(`btn-${color}-active`);
   }, 300);
@@ -100,10 +118,7 @@ const resetGame = function () {
 
 const callSequence = function () {
   console.log("keys deactivated, comp turn");
-  const buttons = document.querySelectorAll(".btn");
-  for (let i = 0; i < buttons.length; i++) {
-    buttons[i].disabled = true;
-  }
+  disableButtons();
   for (let count = 0; count < moves.length; count++) {
     setTimeout(() => {
       callMove(moves[count]);
@@ -116,10 +131,7 @@ const callSequence = function () {
     //activate keys
     toggleGrayCounter();
     console.log("keys activated, player turn");
-    const buttons = document.querySelectorAll(".btn");
-    for (let i = 0; i < buttons.length; i++) {
-      buttons[i].disabled = false;
-    }
+    enableButtons();
   }, 1000 * moves.length);
 };
 
@@ -184,7 +196,9 @@ for (let i = 0; i < buttonClick.length; i++) {
 }
 
 const playTurn = function () {
-  callSequence();
+  setTimeout(() => {
+    callSequence();
+  }, 3000);
 };
 
 playTurn();
