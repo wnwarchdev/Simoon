@@ -5,7 +5,7 @@ let moves = [];
 let movesRequired = moves.length;
 let currentMove = 0;
 let currentStep = 0;
-const choiceColors = 6;
+const choiceColors = 0;
 let lives = 3;
 let sound;
 
@@ -76,7 +76,7 @@ const activateButton = function (color) {
   sound = document.querySelector(`[data-sound='${color}']`);
   console.log("sound! ", sound);
   //sound.pause();
-  sound.currentTime = 0;
+  //sound.currentTime = 0;
   console.log("sound! ", sound);
 
   selected.classList.add(`btn-${color}-active`);
@@ -199,6 +199,21 @@ const playTurn = function () {
   setTimeout(() => {
     callSequence();
   }, 3000);
+};
+
+// Get the modal
+const modal = document.getElementById("myModal");
+const level = document.querySelectorAll(`.level`);
+console.log(level);
+console.log(modal);
+
+level.onclick = function (event) {
+  for (let i = 0; i < levels.length; i++) {
+    console.log(modal);
+    if (event.target == modal) {
+    }
+    modal.style.display = "none";
+  }
 };
 
 playTurn();
