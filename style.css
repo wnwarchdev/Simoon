@@ -34,7 +34,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid white;
   flex-direction: column;
 }
 
@@ -110,12 +109,13 @@ body {
 
 /* Modal Content/Box */
 .modal-content {
+  align-self: center;
   background-color: #fefefe;
-  margin: 15% auto; /* 15% from the top and centered */
+  margin: 50vh auto; /* 15% from the top and centered */
+  transform: translateY(-50%);
   padding: 20px;
   border: 1px solid #888;
   width: 80%; /* Could be more or less, depending on screen size */
-  height: 60%;
   text-align: center;
 }
 

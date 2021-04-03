@@ -5,26 +5,36 @@ let moves = [];
 let movesRequired = moves.length;
 let currentMove = 0;
 let currentStep = 0;
-const choiceColors = 0;
-let lives = 3;
+let choiceColors = 0;
+let lives = 5;
 let sound;
+let modal = document.getElementById("myModal");
 
 // console.log("starting movesRequired: ", movesRequired);
 // console.log("starting currentMove: ", currentMove);
 // console.log("starting currentStep: ", currentStep);
 
-for (let item = 1; item <= choiceColors; item++) {
-  const para = document.createElement("button");
-  para.className = `btn btn-${item}`;
-  para.id = `btn-${item}`;
-  para.style.transform = `translateY(-125px) rotate(${
-    (360 / choiceColors) * (item - 1)
-  }deg)`;
-  const node = document.createTextNode(`${item}`);
-  para.appendChild(node);
-  const destination = document.getElementById("div1");
-  destination.appendChild(para);
-}
+const createButtons = function () {
+  for (let item = 1; item <= choiceColors; item++) {
+    const para = document.createElement("button");
+    para.className = `btn btn-${item}`;
+    para.id = `btn-${item}`;
+    para.style.transform = `translateY(-125px) rotate(${
+      (360 / choiceColors) * (item - 1)
+    }deg)`;
+    const node = document.createTextNode(`${item}`);
+    para.appendChild(node);
+    const destination = document.getElementById("div1");
+    destination.appendChild(para);
+  }
+};
+
+const removeButtons = function () {
+  const buttons = document.querySelectorAll(".btn");
+  for (let i = 0; i < buttons.length; i++) {
+    buttons[i].remove();
+  }
+};
 
 const rotatePlayArea = function () {
   document.querySelector(".playArea").classList.toggle("rotate180");
@@ -32,7 +42,9 @@ const rotatePlayArea = function () {
 
 const turnCounter = function (turn) {
   const counter = document.querySelector(`.turnCounter`);
-  counter.textContent = ("0" + turn).substr(-2);
+  turn == "reset"
+    ? (counter.textContent = "00")
+    : (counter.textContent = ("0" + turn).substr(-2));
 };
 
 const lifeCounter = function (life) {
@@ -57,6 +69,19 @@ const enableButtons = function () {
   }
 };
 
+const updateLifeCounter = function () {
+  const counter = document.querySelectorAll(".lifePoint");
+  //console.log(counter);
+
+  for (let count = 0; count < counter.length; count++) {
+    counter[count].classList.remove("lifePoint-fill");
+  }
+
+  for (let count = 0; count < lives; count++) {
+    counter[count].classList.add("lifePoint-fill");
+  }
+};
+
 const blinkBackground = function (choice) {
   const body = document.querySelector("body");
   sound = document.querySelector(`[data-sound='${choice}']`);
@@ -74,14 +99,11 @@ const activateButton = function (color) {
   const selected = document.querySelector(`#btn-${color}`);
 
   sound = document.querySelector(`[data-sound='${color}']`);
-  console.log("sound! ", sound);
-  //sound.pause();
-  //sound.currentTime = 0;
-  console.log("sound! ", sound);
+  sound.pause();
+  sound.currentTime = 0;
 
   selected.classList.add(`btn-${color}-active`);
   sound.play();
-  console.log("sound! ", sound);
   setTimeout(() => {
     selected.classList.remove(`btn-${color}-active`);
   }, 300);
@@ -110,10 +132,11 @@ const resetGame = function () {
   movesRequired = moves.length;
   currentMove = 0;
   currentStep = 0;
+  lives = 5;
 
-  setTimeout(() => {
-    callSequence();
-  }, 2000);
+  // setTimeout(() => {
+  //   callSequence();
+  // }, 2000);
 };
 
 const callSequence = function () {
@@ -149,9 +172,34 @@ const checkMove = function () {
     //console.log("yes");
     currentStep++;
   } else {
-    toggleGrayCounter();
     blinkBackground(`bad`);
-    resetGame();
+    lives--;
+    if (lives == 0) {
+      disableButtons();
+      resetGame();
+      removeButtons();
+      turnCounter("reset");
+      modal.style.display = "block";
+    } else {
+      currentStep = 0;
+      updateLifeCounter();
+      disableButtons();
+      toggleGrayCounter();
+
+      setTimeout(() => {
+        for (let count = 0; count < moves.length; count++) {
+          setTimeout(() => {
+            callMove(moves[count]);
+          }, 1000 * count);
+        }
+      }, 1000);
+
+      setTimeout(() => {
+        console.log("keys activated, player turn");
+        enableButtons();
+        toggleGrayCounter();
+      }, 1000 * moves.length);
+    }
   }
 
   //console.log("now, the move step is:", currentStep);
@@ -163,6 +211,7 @@ const checkMove = function () {
       setTimeout(() => {
         blinkBackground(`win`);
       }, 100);
+      disableButtons();
       resetGame();
       // const buttons = document.querySelectorAll(".btn");
       // for (let i = 0; i < buttons.length; i++) {
@@ -185,15 +234,17 @@ const checkMove = function () {
   }
 };
 
-const buttonClick = document.querySelectorAll(".btn");
-for (let i = 0; i < buttonClick.length; i++) {
-  buttonClick[i].addEventListener("click", function () {
-    const buttonContent = buttonClick[i].textContent;
-    currentMove = buttonContent;
-    activateButton(i + 1);
-    checkMove();
-  });
-}
+const rigButtons = function () {
+  const buttonClick = document.querySelectorAll(".btn");
+  for (let i = 0; i < buttonClick.length; i++) {
+    buttonClick[i].addEventListener("click", function () {
+      const buttonContent = buttonClick[i].textContent;
+      currentMove = buttonContent;
+      activateButton(i + 1);
+      checkMove();
+    });
+  }
+};
 
 const playTurn = function () {
   setTimeout(() => {
@@ -202,21 +253,29 @@ const playTurn = function () {
 };
 
 // Get the modal
-const modal = document.getElementById("myModal");
-const level = document.querySelectorAll(`.level`);
-console.log(level);
-console.log(modal);
 
-level.onclick = function (event) {
-  for (let i = 0; i < levels.length; i++) {
-    console.log(modal);
-    if (event.target == modal) {
-    }
+let level = document.querySelectorAll(`.level`);
+
+// level.onclick = function () {
+//   modal.style.display = "none";
+//   choiceColors = 4;
+// };
+
+for (let i = 0; i < level.length; i++) {
+  level[i].addEventListener("click", function () {
     modal.style.display = "none";
-  }
-};
+    choiceColors = i + 4;
+    createButtons();
+    rigButtons();
+    disableButtons();
+    updateLifeCounter();
+    setTimeout(() => {
+      callSequence();
+    }, 1000);
+  });
+}
 
-playTurn();
+//playTurn();
 
 //addmove
 
