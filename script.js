@@ -204,7 +204,7 @@ const checkMove = function () {
 
   //console.log("now, the move step is:", currentStep);
   if (currentStep > movesRequired) {
-    if (movesRequired == 09) {
+    if (movesRequired == 19) {
       //console.warn("congratulations, you won the game");
       toggleGrayCounter();
       blinkBackground(`win`);
@@ -213,6 +213,9 @@ const checkMove = function () {
       }, 100);
       disableButtons();
       resetGame();
+      removeButtons();
+      turnCounter("reset");
+      modal.style.display = "block";
       // const buttons = document.querySelectorAll(".btn");
       // for (let i = 0; i < buttons.length; i++) {
       //   buttons[i].disabled = true;
