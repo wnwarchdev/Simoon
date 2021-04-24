@@ -1,6 +1,5 @@
 `use strict`;
 
-//player score, turn counter
 let moves = [];
 let movesRequired = moves.length;
 let currentMove = 0;
@@ -9,10 +8,6 @@ let choiceColors = 0;
 let lives = 5;
 let sound;
 let modal = document.getElementById("myModal");
-
-// console.log("starting movesRequired: ", movesRequired);
-// console.log("starting currentMove: ", currentMove);
-// console.log("starting currentStep: ", currentStep);
 
 const createButtons = function () {
   for (let item = 1; item <= choiceColors; item++) {
@@ -114,10 +109,6 @@ const toggleGrayCounter = function () {
   selected.classList.toggle("turnCounterGray");
 };
 
-//timer
-
-//choosemove
-
 const newMove = function () {
   return Math.ceil(Math.random() * choiceColors);
 };
@@ -133,10 +124,6 @@ const resetGame = function () {
   currentMove = 0;
   currentStep = 0;
   lives = 5;
-
-  // setTimeout(() => {
-  //   callSequence();
-  // }, 2000);
 };
 
 const callSequence = function () {
@@ -158,18 +145,8 @@ const callSequence = function () {
   }, 1000 * moves.length);
 };
 
-// const playerMove = function () {
-//   prompt();
-// };
-
 const checkMove = function () {
-  // console.log("checkmove!");
-  // console.log("number of moves required: ", movesRequired);
-  // console.log("current move step is:", currentStep);
-  //console.log("current move value is:", currentMove);
-  //console.log("...and is to match:", moves[0]);
   if (currentMove == moves[currentStep]) {
-    //console.log("yes");
     currentStep++;
   } else {
     blinkBackground(`bad`);
@@ -202,10 +179,8 @@ const checkMove = function () {
     }
   }
 
-  //console.log("now, the move step is:", currentStep);
   if (currentStep > movesRequired) {
     if (movesRequired == 19) {
-      //console.warn("congratulations, you won the game");
       toggleGrayCounter();
       blinkBackground(`win`);
       setTimeout(() => {
@@ -216,10 +191,6 @@ const checkMove = function () {
       removeButtons();
       turnCounter("reset");
       modal.style.display = "block";
-      // const buttons = document.querySelectorAll(".btn");
-      // for (let i = 0; i < buttons.length; i++) {
-      //   buttons[i].disabled = true;
-      // }
     } else {
       setTimeout(() => {
         blinkBackground(`good`);
@@ -255,14 +226,7 @@ const playTurn = function () {
   }, 3000);
 };
 
-// Get the modal
-
 let level = document.querySelectorAll(`.level`);
-
-// level.onclick = function () {
-//   modal.style.display = "none";
-//   choiceColors = 4;
-// };
 
 for (let i = 0; i < level.length; i++) {
   level[i].addEventListener("click", function () {
@@ -277,13 +241,3 @@ for (let i = 0; i < level.length; i++) {
     }, 1000);
   });
 }
-
-//playTurn();
-
-//addmove
-
-//event handlers
-//reset game
-//press color
-
-//hiscores
